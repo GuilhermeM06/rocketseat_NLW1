@@ -17,6 +17,25 @@ const Modal = {
 
 }
 
+const Modal2 = {
+    open() {
+        // Abrir modal
+        // Adicionar a class active no modal
+        // DOM - Document Object Model
+        document
+            .querySelector('.modal-overlay.editor')
+            .classList.add('active')
+    },
+    close() {
+        //fechar modal
+        //remover classe active do modal
+        document
+            .querySelector('.modal-overlay.editor')
+            .classList.remove('active')
+    }
+}
+
+
 const Storage = {
     get(){
         return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
@@ -62,7 +81,8 @@ const Transaction = {
     },
     total() {
         return Transaction.incomes() + Transaction.expenses()
-    }
+    },
+
 }
 
 const DOM = {
@@ -86,7 +106,8 @@ const DOM = {
             <td class="description">${transaction.description}</td>
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
-            <td>
+            <td class="img-buttons">
+                <p id="editor">Editar</p>
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação">
             </td>
         </tr>
@@ -197,7 +218,85 @@ const Form = {
     }
 }
 
+const Filter = {
+    filterIncomes(){
+        DOM.clearTransactions()
+        Transaction.all.forEach((transaction) => {
+            if(transaction.amount > 0){
+                let index = Transaction.all.indexOf(transaction)
+                DOM.addTransaction(transaction, index)
+            }
+        })
+        
+    },
 
+    filterExpenses(){
+        DOM.clearTransactions()
+        Transaction.all.forEach((transaction) => {
+            if(transaction.amount < 0){
+                let index = Transaction.all.indexOf(transaction)
+                DOM.addTransaction(transaction, index)
+            }
+        })
+        
+    },
+    filterTotal(){
+        App.reload()
+    }
+   
+}
+
+// Modal Editor ============================================
+
+const Edit = {
+
+    changeDescription(index, description){
+        Transaction.all[index].description = description
+
+    },
+
+    changeAmount(index, amount){
+        Transaction.all[index].amount = amount
+
+    },
+
+    changeDate(index, date){
+        Transaction.all[index].date = date
+
+    },
+
+    submit(event){
+        event.preventDefault()
+
+        Edit.validateFields()
+        Modal.close()
+        App.reload()
+
+        Edit.formatValues()
+    
+    }
+
+
+}
+
+
+
+// =====================================================
+
+const Total = {
+    colorChangeCard(){
+        let sum = Transaction.total()
+        if(sum < 0){
+            document.querySelector(".card.total")
+            .classList.add("negative")
+        }
+        if(sum >= 0){
+            document.querySelector(".card.total")
+            .classList.remove("negative")
+        }
+        
+    }
+}
 
 const App = {
     init() {
@@ -206,6 +305,8 @@ const App = {
         DOM.updateBalance()
 
         Storage.set(Transaction.all)
+
+        Total.colorChangeCard()
     },
     reload() {
         DOM.clearTransactions()

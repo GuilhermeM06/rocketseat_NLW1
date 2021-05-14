@@ -10,6 +10,8 @@
     --green: #12a454;
     --light-green: #3dd705;
     --red: #e92929;
+    --light-red: #e22e2e;
+    --dark-red: #ac0d0d;
 }
 
 * {
@@ -152,6 +154,17 @@ header{
 
     margin-bottom: 2rem;
 }
+.card.income:hover{
+    border: 3px solid var(--green);
+    cursor: pointer;
+    transition: 70ms;
+}
+
+.card.expense:hover{
+    border: 3px solid var(--red);
+    cursor: pointer;
+    transition: 70ms;
+}
 
 .card h3 {
     font-weight: normal;
@@ -172,6 +185,24 @@ header{
     color: var(--white);
 
 }
+
+.card.total:hover{
+    border: 3px solid var(--light-green);
+    cursor: pointer;
+    transition: 70ms;
+}
+
+.card.total.negative {
+    background: var(--dark-red);
+    color: var(--white);
+
+}
+.card.total.negative:hover{
+    border: 3px solid var(--light-red);
+    cursor: pointer;
+    transition: 70ms;
+}
+
 /* Table ================================== */
 #transaction {
     display: block;
@@ -186,13 +217,14 @@ header{
 }
 
 table th {
-    background: var(--white);
+    background: var(--ice-white-background);
 
     font-weight: normal;
+    font-size: 17px;
     padding: 1rem 2rem;
 
     text-align: left;
-    color: var(--soft-blue);
+    color: var(--dark-green);
 }
 
 table tbody td {
@@ -207,6 +239,19 @@ table tbody tr{
 
 table tbody tr:hover{
     opacity: 1;
+}
+
+table tbody tr td.img-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+table tbody tr td.img-buttons:hover{
+    cursor: pointer;
+}
+
+table tbody tr td img:hover{
+    cursor: pointer;
 }
 
 table thead tr th:first-child,
@@ -312,6 +357,8 @@ footer{
     z-index: -1;
 }
 
+
+
 /* Responsividade ================================== */
 @media (min-width: 800px) {
     html{
@@ -325,3 +372,4 @@ footer{
         gap: 2rem;
     }
 }
+
