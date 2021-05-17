@@ -202,6 +202,26 @@ header{
     cursor: pointer;
     transition: 70ms;
 }
+/* Filter ================================== */
+.filter-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-box #filter-search{
+    padding: 0.6rem;
+    margin-right: 13px;
+    width: 80%;
+    height: 50%;
+}
+
+.filter-box .btn-search{
+    padding: 0.6rem;
+    width: 20%;
+    height: 50%;
+}
+
 
 /* Table ================================== */
 #transaction {

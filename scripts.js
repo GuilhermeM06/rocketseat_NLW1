@@ -6,6 +6,7 @@ const Modal = {
         document
             .querySelector('.modal-overlay')
             .classList.add('active')
+        // Todo objeto tem propriedades e funcionalidades.
     },
     close() {
         //fechar modal
@@ -25,6 +26,7 @@ const Modal2 = {
         document
             .querySelector('.modal-overlay.editor')
             .classList.add('active')
+        // Todo objeto tem propriedades e funcionalidades.
     },
     close() {
         //fechar modal
@@ -34,6 +36,8 @@ const Modal2 = {
             .classList.remove('active')
     }
 }
+
+
 
 
 const Storage = {
@@ -62,6 +66,7 @@ const Transaction = {
     },
 
     incomes() {
+        // Somar as entradas 
         let income = 0
         Transaction.all.forEach((transaction) => {
             if( transaction.amount > 0) {
@@ -71,6 +76,7 @@ const Transaction = {
         return income;
     },
     expenses() {
+        // Somar as saidas
         let expense = 0
         Transaction.all.forEach((transaction) => {
             if( transaction.amount < 0) {
@@ -107,7 +113,7 @@ const DOM = {
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
             <td class="img-buttons">
-                <p id="editor">Editar</p>
+                <p id="editor" onclick="Edit.saveIndex(${index}), Edit.setValues(${index}), Modal2.open()">Editar</p>
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação">
             </td>
         </tr>
@@ -219,6 +225,7 @@ const Form = {
 }
 
 const Filter = {
+
     filterIncomes(){
         DOM.clearTransactions()
         Transaction.all.forEach((transaction) => {
@@ -246,39 +253,80 @@ const Filter = {
    
 }
 
+
 // Modal Editor ============================================
 
 const Edit = {
+    index:0,
+    description: document.querySelector('input#descricao2'),
+    amount: document.querySelector('input#amount2'),
+    date: document.querySelector('input#date2'),
+    
+    saveIndex(index){
+        Edit.index = index
+    },
+    
+    formatDateReturn(date){
+        const splittedDate = date.split("/")
+        return `${splittedDate[2]}-${splittedDate[1]}-${splittedDate[0]}`
+    },
 
-    changeDescription(index, description){
-        Transaction.all[index].description = description
+    setValues(index){
+        let transaction = Transaction.all[index]
+        let date = Edit.formatDateReturn(transaction.date)
+        Edit.description.value = transaction.description
+        Edit.amount.value = transaction.amount/100
+        Edit.date.value = date
+        
 
     },
 
-    changeAmount(index, amount){
-        Transaction.all[index].amount = amount
 
+    getValues(){
+        return{
+            description: Edit.description.value,
+            amount: Edit.amount.value,
+            date: Edit.date.value
+        }
     },
 
-    changeDate(index, date){
-        Transaction.all[index].date = date
+    formatValues(){
+        let { description, amount, date } = Edit.getValues()
+        amount = Utils.formatAmount(amount)
+        date = Utils.formatDate(date)
 
+        return {
+            description,
+            amount,
+            date
+        }
     },
 
-    submit(event){
-        event.preventDefault()
-
-        Edit.validateFields()
-        Modal.close()
+    editTransaction(index){
+        let transaction = Edit.formatValues()
+        console.log(transaction)
+        Transaction.all[index].description = transaction.description
+        Transaction.all[index].amount = transaction.amount
+        Transaction.all[index].date = transaction.date
         App.reload()
 
-        Edit.formatValues()
-    
+    },
+
+    clearFields(){
+        Edit.description.value = ""
+        Edit.amount.value = ""
+        Edit.date.value = ""
+    },
+    submit(event){
+        event.preventDefault()
+        let index = Edit.index
+        Edit.editTransaction(index)
+        Edit.clearFields()
+        Modal2.close()
+
     }
 
-
 }
-
 
 
 // =====================================================
