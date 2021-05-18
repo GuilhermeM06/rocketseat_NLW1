@@ -249,9 +249,26 @@ const Filter = {
     },
     filterTotal(){
         App.reload()
-    }
+    },
    
+
+    searchBar(){
+        let FilterValue, input, description;
+        DOM.clearTransactions()
+        input = document.getElementById('filter-search')
+        FilterValue = input.value.toUpperCase()
+        Transaction.all.forEach((transaction) => {
+            description = transaction.description.toUpperCase()
+            if(description.indexOf(FilterValue) > -1){
+                let index = Transaction.all.indexOf(transaction)
+                DOM.addTransaction(transaction, index)
+            }
+        })
+        // console.log(elements)
+   
+    }
 }
+
 
 
 // Modal Editor ============================================

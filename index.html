@@ -44,10 +44,9 @@
             <a href="#"
             onclick="Modal.open()" 
             class="button new">+ Nova Transação</a>
-            <form action="" class="filter-box">
-                <input type="text" id="filter-search">
-                <button class="btn-search" onclick="Filter.filterDescription()">pesquisar</button>
-            </form>
+
+            <input type="text" id="filter-search" name="filter-search" placeholder="Filtro de Busca" onkeyup="Filter.searchBar()">
+
 
             <table id="data-table">
                 <thead>
