@@ -186,6 +186,11 @@ const Form = {
             date.trim() === ""){
                 throw new Error("Por favor preencha todos os campos")
         }
+        const check = date.split('-')
+        const year = Number(check[0])
+        if(year < 1900){
+            throw new Error("O ano só é valido a partir de 1900.")
+        }
     },
 
     formatValues(){
@@ -264,7 +269,6 @@ const Filter = {
                 DOM.addTransaction(transaction, index)
             }
         })
-        // console.log(elements)
    
     }
 }
@@ -288,6 +292,8 @@ const Edit = {
         return `${splittedDate[2]}-${splittedDate[1]}-${splittedDate[0]}`
     },
 
+
+
     setValues(index){
         let transaction = Transaction.all[index]
         let date = Edit.formatDateReturn(transaction.date)
@@ -307,6 +313,17 @@ const Edit = {
         }
     },
 
+    validateDateField(){
+
+        const values = Edit.getValues()
+        const splittedDate = values.date.split('-')
+        const year = Number(splittedDate[0])
+        if(year < 1900){
+            throw new Error("O ano só é valido a partir de 1900.")
+        }
+         
+    },
+
     formatValues(){
         let { description, amount, date } = Edit.getValues()
         amount = Utils.formatAmount(amount)
@@ -321,7 +338,6 @@ const Edit = {
 
     editTransaction(index){
         let transaction = Edit.formatValues()
-        console.log(transaction)
         Transaction.all[index].description = transaction.description
         Transaction.all[index].amount = transaction.amount
         Transaction.all[index].date = transaction.date
@@ -336,11 +352,18 @@ const Edit = {
     },
     submit(event){
         event.preventDefault()
-        let index = Edit.index
-        Edit.editTransaction(index)
-        Edit.clearFields()
-        Modal2.close()
+        
 
+        try{
+            Edit.validateDateField()
+            let index = Edit.index
+            Edit.editTransaction(index)
+            Edit.clearFields()
+            Modal2.close()
+        } catch(error){
+            alert(error.message)
+        }
+    
     }
 
 }
