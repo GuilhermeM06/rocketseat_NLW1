@@ -157,14 +157,14 @@ header{
 .card.income:hover{
     border: 3px solid var(--green);
     cursor: pointer;
-    transition: 70ms;
+    transition: 40ms;
     box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
 }
 
 .card.expense:hover{
     border: 3px solid var(--red);
     cursor: pointer;
-    transition: 70ms;
+    transition: 40ms;
     box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
 }
 
@@ -191,7 +191,7 @@ header{
 .card.total:hover{
     border: 3px solid var(--light-green);
     cursor: pointer;
-    transition: 70ms;
+    transition: 40ms;
     box-shadow:0 0 16px rgba(0, 0, 0, 0.404);
 }
 
@@ -203,7 +203,7 @@ header{
 .card.total.negative:hover{
     border: 3px solid var(--light-red);
     cursor: pointer;
-    transition: 70ms;
+    transition: 40ms;
 }
 /* Filter ================================== */
 

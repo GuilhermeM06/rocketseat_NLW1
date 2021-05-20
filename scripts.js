@@ -96,12 +96,7 @@ const DOM = {
     transactionsContainer: document.querySelector('#data-table tbody'),
 
     addTransaction(transaction, index) {
-        const tr = document.createElement('tr')
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
-        tr.dataset.index = index
-
-
-        DOM.transactionsContainer.appendChild(tr)
+        DOM.transactionsContainer.appendChild(DOM.innerHTMLTransaction(transaction, index))
     },
 
     innerHTMLTransaction(transaction, index) {
@@ -109,19 +104,43 @@ const DOM = {
 
         const amount = Utils.formatCurrency(transaction.amount);
 
-        const html = `
-        <tr>
-            <td class="description">${transaction.description}</td>
-            <td class="${CSSclass}">${amount}</td>
-            <td class="date">${transaction.date}</td>
-            <td class="img-buttons">
-                <p id="editor" onclick="Edit.saveIndex(${index}), Edit.setValues(${index}), modalEditTransaction.open()">Editar</p>
-                <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação">
-            </td>
-        </tr>
-        `
+        const tr = document.createElement("tr");
 
-        return html
+        const tdDescription = document.createElement("td");
+        tdDescription.className = "description";
+        tdDescription.append(`${transaction.description}`);
+        tr.appendChild(tdDescription);
+
+        const tdAmount = document.createElement("td");
+        tdAmount.className = `${CSSclass}`;
+        tdAmount.append(`${amount}`);
+        tr.appendChild(tdAmount);
+
+        const tdDate = document.createElement("td");
+        tdDate.className = `date`;
+        tdDate.append(`${transaction.date}`);
+        tr.appendChild(tdDate);
+
+        const tdButtons = document.createElement("td");
+        const p = document.createElement("p");
+        p.setAttribute('id', "editor")
+        p.addEventListener('click', () => {
+            Edit.saveIndex(index), Edit.setValues(index), modalEditTransaction.open()
+        })
+        p.append('Editar')
+        const img = document.createElement("img");
+        img.addEventListener('click', () => {
+            Transaction.remove(index)
+        })
+        img.setAttribute('src', "./assets/minus.svg")
+        tdButtons.className = `img-buttons`;
+        tdButtons.appendChild(p);
+
+        tdButtons.appendChild(img)
+        tr.appendChild(tdButtons);
+
+        tr.dataset.index = index;
+        return tr
     },
 
     updateBalance() {
