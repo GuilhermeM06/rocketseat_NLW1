@@ -1,39 +1,19 @@
-const Modal = {
+const modalAddTransaction = {
     open() {
-        // Abrir modal
-        // Adicionar a class active no modal
-        // DOM - Document Object Model
-        document
-            .querySelector('.modal-overlay')
-            .classList.add('active')
-        // Todo objeto tem propriedades e funcionalidades.
+        document.querySelector('.modal-overlay').classList.add('active')
     },
     close() {
-        //fechar modal
-        //remover classe active do modal
-        document
-            .querySelector('.modal-overlay')
-            .classList.remove('active')
+        document.querySelector('.modal-overlay').classList.remove('active')
     }
 
 }
 
-const Modal2 = {
+const modalEditTransaction = {
     open() {
-        // Abrir modal
-        // Adicionar a class active no modal
-        // DOM - Document Object Model
-        document
-            .querySelector('.modal-overlay.editor')
-            .classList.add('active')
-        // Todo objeto tem propriedades e funcionalidades.
+        document.querySelector('.modal-overlay.editor').classList.add('active')
     },
     close() {
-        //fechar modal
-        //remover classe active do modal
-        document
-            .querySelector('.modal-overlay.editor')
-            .classList.remove('active')
+        document.querySelector('.modal-overlay.editor').classList.remove('active')
     }
 }
 
@@ -66,7 +46,6 @@ const Transaction = {
     },
 
     incomes() {
-        // Somar as entradas 
         let income = 0
         Transaction.all.forEach((transaction) => {
             if( transaction.amount > 0) {
@@ -76,7 +55,6 @@ const Transaction = {
         return income;
     },
     expenses() {
-        // Somar as saidas
         let expense = 0
         Transaction.all.forEach((transaction) => {
             if( transaction.amount < 0) {
@@ -99,13 +77,14 @@ const DOM = {
         tr.innerHTML = DOM.innerHTMLTransaction(transaction, index)
         tr.dataset.index = index
 
+
         DOM.transactionsContainer.appendChild(tr)
     },
 
     innerHTMLTransaction(transaction, index) {
         const CSSclass = transaction.amount > 0 ? "income" : "expense"
 
-        const amount = Utils.formatCurrency(transaction.amount)
+        const amount = Utils.formatCurrency(transaction.amount);
 
         const html = `
         <tr>
@@ -113,11 +92,12 @@ const DOM = {
             <td class="${CSSclass}">${amount}</td>
             <td class="date">${transaction.date}</td>
             <td class="img-buttons">
-                <p id="editor" onclick="Edit.saveIndex(${index}), Edit.setValues(${index}), Modal2.open()">Editar</p>
+                <p id="editor" onclick="Edit.saveIndex(${index}), Edit.setValues(${index}), modalEditTransaction.open()">Editar</p>
                 <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="remover transação">
             </td>
         </tr>
         `
+
         return html
     },
 
@@ -171,6 +151,22 @@ const Form = {
     amount: document.querySelector('input#amount'),
     date: document.querySelector('input#date'),
 
+    setCurrentDate(){
+        const currentDate =  new Date();
+        const year = currentDate.getFullYear()
+        let month = currentDate.getMonth() + 1
+        if(month < 10){
+            month = "0" + String(month)
+        }
+        const day = currentDate.getDate()
+        if(day < 10){
+            day = "0" + String(month)
+        }
+        Form.date.value = year + "-" + month + "-" + day;
+
+    },
+    
+
     getValues() {
         return{
             description: Form.description.value,
@@ -219,7 +215,7 @@ const Form = {
             const transaction = Form.formatValues()
             Transaction.add(transaction)
             Form.clearFields()
-            Modal.close()
+            modalAddTransaction.close()
         } catch (error) {
             
             alert(error.message)
@@ -257,7 +253,7 @@ const Filter = {
     },
    
 
-    searchBar(){
+    searchBarDescriptions(){
         let FilterValue, input, description;
         DOM.clearTransactions()
         input = document.getElementById('filter-search')
@@ -270,12 +266,27 @@ const Filter = {
             }
         })
    
+    },
+
+    filterDate(){
+        DOM.clearTransactions()
+        Transaction.all.sort((a, b) => {
+            const dateA = a.date.split("/");
+            const dateB = b.date.split("/");
+            const formatDateA = dateA[2] + "-" + dateA[1] + "-" + dateA[0];
+            const formatDateB = dateB[2] + "-" + dateB[1] + "-" + dateB[0];
+            const formatedDateA = new Date(formatDateA);
+            const formatedDateB = new Date(formatDateB);
+            return formatedDateB - formatedDateA
+        })
+        Transaction.all.forEach((transaction) => {
+            let index = Transaction.all.indexOf(transaction)
+            DOM.addTransaction(transaction, index)
+        })
+        
     }
 }
 
-
-
-// Modal Editor ============================================
 
 const Edit = {
     index:0,
@@ -359,7 +370,7 @@ const Edit = {
             let index = Edit.index
             Edit.editTransaction(index)
             Edit.clearFields()
-            Modal2.close()
+            modalEditTransaction.close()
         } catch(error){
             alert(error.message)
         }
@@ -368,8 +379,6 @@ const Edit = {
 
 }
 
-
-// =====================================================
 
 const Total = {
     colorChangeCard(){
@@ -393,6 +402,8 @@ const App = {
         DOM.updateBalance()
 
         Storage.set(Transaction.all)
+
+        Filter.filterDate()
 
         Total.colorChangeCard()
     },

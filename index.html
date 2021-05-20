@@ -42,10 +42,10 @@
             <h2 class="sr-only">Transações</h2>
             
             <a href="#"
-            onclick="Modal.open()" 
+            onclick="modalAddTransaction.open(), Form.setCurrentDate()" 
             class="button new">+ Nova Transação</a>
 
-            <input type="text" id="filter-search" name="filter-search" placeholder="Filtro de busca por descrição" onkeyup="Filter.searchBar()">
+            <input type="text" id="filter-search" name="filter-search" placeholder="Filtro de busca por descrição" onkeyup="Filter.searchBarDescriptions()">
 
 
             <table id="data-table">
@@ -96,14 +96,14 @@
 
                     <div class="input-group actions">
                         <a href="#"
-                        onclick="Modal.close()" class="button cancel">Cancelar</a>
+                        onclick="modalAddTransaction.close()" class="button cancel">Cancelar</a>
                         <button>Salvar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
 <div class="modal-overlay editor">
     <div class="modal"> 
         <div id="form">
@@ -137,7 +137,7 @@
 
                 <div class="input-group actions">
                     <a href="#"
-                    onclick="Modal2.close()" class="button cancel">Cancelar</a>
+                    onclick="modalEditTransaction.close()" class="button cancel">Cancelar</a>
                     <button>Salvar</button>
                 </div>
             </form>
