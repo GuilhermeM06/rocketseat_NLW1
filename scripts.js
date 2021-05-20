@@ -17,8 +17,31 @@ const modalEditTransaction = {
     }
 }
 
+const Toast = {
+    init(){
+        this.hideTimeout = null;
 
+        this.element = document.createElement('div');
+        this.element.className = 'toast';
+        document.body.appendChild(this.element)
+    },
 
+    show(message){
+        clearTimeout(this.hideTimeout)
+
+        this.element.textContent = message;
+        this.element.className = 'toast toast--visible';
+
+        this.hideTimeout= setTimeout(() => {
+            this.element.classList.remove('toast--visible');
+        }, 3000);
+    }
+
+    
+
+}
+
+document.addEventListener('DOMContentLoaded', () => Toast.init())
 
 const Storage = {
     get(){
@@ -218,7 +241,7 @@ const Form = {
             modalAddTransaction.close()
         } catch (error) {
             
-            alert(error.message)
+            Toast.show(error.message)
         }
     
         Form.formatValues()
@@ -372,7 +395,7 @@ const Edit = {
             Edit.clearFields()
             modalEditTransaction.close()
         } catch(error){
-            alert(error.message)
+            Toast.show(error.message)
         }
     
     }

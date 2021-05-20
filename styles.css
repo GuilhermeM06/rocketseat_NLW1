@@ -158,12 +158,14 @@ header{
     border: 3px solid var(--green);
     cursor: pointer;
     transition: 70ms;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
 }
 
 .card.expense:hover{
     border: 3px solid var(--red);
     cursor: pointer;
     transition: 70ms;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
 }
 
 .card h3 {
@@ -190,6 +192,7 @@ header{
     border: 3px solid var(--light-green);
     cursor: pointer;
     transition: 70ms;
+    box-shadow:0 0 16px rgba(0, 0, 0, 0.404);
 }
 
 .card.total.negative {
@@ -351,6 +354,32 @@ input{
     width: 48%;
 }
 
+.toast{
+    position: fixed;
+    top: 20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    max-width: 400px;
+    padding: 6px;
+    background: var(--light-red);
+    color: var(--white);
+    text-align: center;
+    border: 1px solid var(--dark-red);
+    border-radius: 0.5rem;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s, top 0.5s, visibility 0.5s;
+}
+
+.toast--visible{
+    top: 20px;
+    visibility: visible;
+    opacity: 1;
+}
 
 /* Footer ================================== */
 footer{
