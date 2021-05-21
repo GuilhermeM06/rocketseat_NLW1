@@ -96,11 +96,11 @@ const DOM = {
     transactionsContainer: document.querySelector('#data-table tbody'),
 
     addTransaction(transaction, index) {
-        DOM.transactionsContainer.appendChild(DOM.innerHTMLTransaction(transaction, index))
+        DOM.transactionsContainer.appendChild(DOM.innerHTMLTransaction(transaction, index));
     },
 
     innerHTMLTransaction(transaction, index) {
-        const CSSclass = transaction.amount > 0 ? "income" : "expense"
+        const CSSclass = transaction.amount > 0 ? "income" : "expense";
 
         const amount = Utils.formatCurrency(transaction.amount);
 
@@ -123,38 +123,32 @@ const DOM = {
 
         const tdButtons = document.createElement("td");
         const p = document.createElement("p");
-        p.setAttribute('id', "editor")
+        p.setAttribute('id', "editor");
         p.addEventListener('click', () => {
-            Edit.saveIndex(index), Edit.setValues(index), modalEditTransaction.open()
-        })
+            Edit.saveIndex(index), Edit.setValues(index), modalEditTransaction.open();
+        });
         p.append('Editar')
         const img = document.createElement("img");
         img.addEventListener('click', () => {
-            Transaction.remove(index)
-        })
-        img.setAttribute('src', "./assets/minus.svg")
+            Transaction.remove(index);
+        });
+        img.setAttribute('src', "./assets/minus.svg");
         tdButtons.className = `img-buttons`;
         tdButtons.appendChild(p);
 
-        tdButtons.appendChild(img)
+        tdButtons.appendChild(img);
         tr.appendChild(tdButtons);
 
         tr.dataset.index = index;
-        return tr
+        return tr;
     },
 
     updateBalance() {
-        document
-            .getElementById('incomeDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.incomes()) 
+        document.getElementById('incomeDisplay').innerHTML = Utils.formatCurrency(Transaction.incomes()) 
 
-        document
-            .getElementById('expenseDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.expenses())
+        document.getElementById('expenseDisplay').innerHTML = Utils.formatCurrency(Transaction.expenses())
 
-        document
-            .getElementById('totalDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.total())
+        document.getElementById('totalDisplay').innerHTML = Utils.formatCurrency(Transaction.total())
     },
 
     clearTransactions(){

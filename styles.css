@@ -363,7 +363,7 @@ input{
 
     max-width: 400px;
     padding: 6px;
-    background: var(--light-red);
+    background: var(--dark-red);
     color: var(--white);
     text-align: center;
     border: 1px solid var(--dark-red);
