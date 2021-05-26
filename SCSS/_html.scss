@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    /* 100% = 16px */
+    /* Tamanho padrão para o mobile*/
+    font-size: 93.75%; /* 15px */
+}
+
+body{
+    background: $ice-white-background;
+    font-family: "Poppins", sans-serif;
+}
+
+.container{
+    width: min(90vw, 800px);
+    margin: auto;
+}
+
+/* Estamos usando isso ao invés de:
+display:none
+    ou
+visibility: hidden
+é por que ainda irá parecer para os leitores de tela(screen readers).*/
+.sr-only{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border-width: 0;
+}

@@ -1,0 +1,62 @@
+/* Form ================================== */
+#form{
+    max-width: 500px;
+
+    h2{
+        margin-top: 0;
+    }
+}
+
+input{
+    border: none;
+    border-radius: 0.2rem;
+
+    padding: 0.8rem;
+
+    width: 100%;
+}
+
+.input-group{
+    margin-top: 0.8rem;
+
+    small{
+        opacity: 0.5;
+    }
+
+    &.actions{
+        @include alignment(space-between)
+    }
+}
+
+
+.input-group.actions .button,
+.input-group.actions button{
+    width: 48%;
+}
+
+.toast{
+    position: fixed;
+    top: pxToRem(20);
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    max-width: pxToRem(400);
+    padding: pxToRem(6);
+    background: $dark-red;
+    color: $white;
+    text-align: center;
+    border: pxToRem(1) solid $dark-red;
+    border-radius: 0.5rem;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s, top 0.5s, visibility 0.5s;
+
+    &--visible{
+        top: pxToRem(20);
+        visibility: visible;
+        opacity: 1;
+    }
+}

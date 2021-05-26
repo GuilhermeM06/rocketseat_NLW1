@@ -1,0 +1,37 @@
+@mixin alignment($position){
+
+    display: flex;
+    align-items: center;
+    justify-content: $position;
+}
+
+@mixin hover-cards($color) {
+    border: 3px solid $color;
+    cursor: pointer;
+    transition: 40ms;
+    box-shadow:0 0 10px rgba(0, 0, 0, 0.404);
+}
+
+@function pxToRem($px){
+    $remValue: ($px / 16) + rem; 
+    @return $remValue;
+};
+
+
+
+@import 'colors';
+@import 'html';
+@import 'linksAndButtons';
+@import 'header';
+@import 'titles';
+@import 'cards';
+@import 'balance';
+@import 'table';
+@import 'modal';
+@import 'form';
+@import 'footer';
+@import 'responsivity';
+
+
+
+
